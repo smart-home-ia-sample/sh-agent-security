@@ -21,13 +21,15 @@ from smart_home_common.a2a_client import call_agent  # noqa: E402
 def _build_fake_bfa_app() -> FastAPI:
     fake = FastAPI()
 
-    @fake.post("/agents/register")
-    def register(payload: dict):
-        return {**payload, "status": "healthy"}
-
-    @fake.get("/agents")
-    def list_agents(capability: str | None = None):
-        return [{"name": "security", "endpoint": f"http://127.0.0.1:{AGENT_PORT}"}]
+    @fake.post("/resolve/agents")
+    def resolve_agents(body: dict):
+        return [{
+            "kind": "agent",
+            "service": "security",
+            "url": f"http://127.0.0.1:{AGENT_PORT}",
+            "id": body.get("query", "").replace(" ", "_"),
+            "score": 1.0,
+        }]
 
     return fake
 

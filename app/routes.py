@@ -3,7 +3,7 @@ import os
 from fastapi import APIRouter, FastAPI
 
 from app import domain
-from app.registration import SKILLS
+from app.skills import SKILLS
 from smart_home_common import AgentClient, HomeMcpClient, IntentAgentExecutor, build_agent_card, mount_a2a
 
 router = APIRouter()
